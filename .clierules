@@ -1,0 +1,27 @@
+---
+alwaysApply: true
+---
+
+## Project Overview
+
+**Shadow** is an Electron-based AI desktop application designed as a "siri alternative." It proactively assists users by listening, understanding context, and providing structured knowledge in real time. It will also be able to respond with voice, perform actions, answer from connected MCPs. The app is privacy-focused, lightweight, and open-source.
+
+### Tech Stack
+
+- **Electron:** For cross-platform desktop app development.
+- **Node.js:** Backend logic and service orchestration.
+- **React (implied by dependencies):** Likely used for UI rendering.
+- **SQLite:** Local data storage.
+- **Firebase:** For cloud data storage and authentication.
+- **Express:** Embedded server for local web stack.
+- **AI Integrations:** OpenAI, Gemini, Anthropic (Claude).
+- **Other:** Uses sharp for image processing, axios for HTTP requests, and various Electron utilities for packaging and updates.
+
+### Notable Dependencies
+
+- `electron`, `electron-builder`, `electron-forge`: Core Electron tooling.
+- `@anthropic-ai/sdk`, `@google/genai`, `openai`: AI model integrations.
+- `firebase`, `firebase-admin`: Cloud storage and authentication.
+- `better-sqlite3`: Local database.
+- `express`, `cors`: Local server and API handling.
+- `electron-liquid-shadow` (optional): For advanced UI effects (Liquid Shadow UI, WIP).
