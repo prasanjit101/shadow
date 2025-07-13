@@ -513,7 +513,7 @@ export class SettingsView extends LitElement {
         //////// after_modelStateService ////////
         this.shortcuts = {};
         this.firebaseUser = null;
-        this.apiKeys = { openai: '', gemini: '', anthropic: '', whisper: '' };
+        this.apiKeys = { openai: '', gemini: '', anthropic: '', whisper: '', elevenlabs: '' };
         this.providerConfig = {};
         this.isLoading = true;
         this.isContentProtectionOn = true;
@@ -1466,6 +1466,17 @@ export class SettingsView extends LitElement {
                         </div>
                         `;
                     })}
+                <div class="provider-key-group">
+                    <label for="key-input-elevenlabs">ElevenLabs API Key</label>
+                    <input type="password" id="key-input-elevenlabs"
+                        placeholder="Enter ElevenLabs API Key"
+                        .value=${this.apiKeys.elevenlabs || ''}
+                    >
+                    <div class="key-buttons">
+                        <button class="settings-button" @click=${() => this.handleSaveKey('elevenlabs')} >Save</button>
+                        <button class="settings-button danger" @click=${() => this.handleClearKey('elevenlabs')} }>Clear</button>
+                    </div>
+                </div>
             </div>
         `;
         

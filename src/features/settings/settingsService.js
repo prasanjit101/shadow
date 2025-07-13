@@ -283,6 +283,12 @@ async function deletePreset(id) {
 async function saveApiKey(apiKey, provider = 'openai') {
     try {
         const user = authService.getCurrentUser();
+        if (provider === 'elevenlabs') {
+            const Store = require('electron-store');
+            const store = new Store();
+            store.set('elevenlabs_api_key', apiKey);
+            return { success: true };
+        }
         if (!user.isLoggedIn) {
             // For non-logged-in users, save to local storage
             const Store = require('electron-store');
@@ -317,8 +323,14 @@ async function saveApiKey(apiKey, provider = 'openai') {
     }
 }
 
-async function removeApiKey() {
+async function removeApiKey(provider = 'openai') {
     try {
+        if (provider === 'elevenlabs') {
+            const Store = require('electron-store');
+            const store = new Store();
+            store.delete('elevenlabs_api_key');
+            return { success: true };
+        }
         const user = authService.getCurrentUser();
         if (!user.isLoggedIn) {
             // For non-logged-in users, remove from local storage
@@ -373,6 +385,17 @@ async function getAutoUpdateSetting() {
     }
 }
 
+async function getElevenLabsApiKey() {
+    try {
+        const Store = require('electron-store');
+        const store = new Store();
+        return store.get('elevenlabs_api_key');
+    } catch (error) {
+        console.error('[SettingsService] Error getting ElevenLabs API key:', error);
+        return null;
+    }
+}
+
 async function setAutoUpdateSetting(isEnabled) {
     try {
         await settingsRepository.setAutoUpdate(isEnabled);
@@ -421,8 +444,8 @@ function initialize() {
         return await saveApiKey(apiKey, provider);
     });
     
-    ipcMain.handle('settings:removeApiKey', async () => {
-        return await removeApiKey();
+    ipcMain.handle('settings:removeApiKey', async (event, provider) => {
+        return await removeApiKey(provider);
     });
     
     ipcMain.handle('settings:updateContentProtection', async (event, enabled) => {
@@ -469,4 +492,5 @@ module.exports = {
     removeApiKey,
     updateContentProtection,
     getAutoUpdateSetting,
+    getElevenLabsApiKey,
 };

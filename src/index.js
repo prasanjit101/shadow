@@ -967,7 +967,7 @@ async function startWebStack() {
     timestamp: Date.now()
   };
   
-  // 쓰기 가능한 임시 폴더에 런타임 설정 파일 생성
+    // Create a runtime configuration file in a writable temporary folder
   const tempDir = app.getPath('temp');
   const configPath = path.join(tempDir, 'runtime-config.json');
   fs.writeFileSync(configPath, JSON.stringify(runtimeConfig, null, 2));
@@ -975,7 +975,7 @@ async function startWebStack() {
 
   const frontSrv = express();
   
-  // 프론트엔드에서 /runtime-config.json을 요청하면 임시 폴더의 파일을 제공
+    // Frontend requests /runtime-config.json, so we provide the file from the temporary folder
   frontSrv.get('/runtime-config.json', (req, res) => {
     res.sendFile(configPath);
   });

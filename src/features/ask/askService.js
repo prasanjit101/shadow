@@ -5,6 +5,7 @@ const authService = require('../../common/services/authService');
 const sessionRepository = require('../../common/repositories/session');
 const askRepository = require('./repositories');
 const { getSystemPrompt } = require('../../common/prompts/promptBuilder');
+const speakService = require('../speak/speakService');
 
 function formatConversationForPrompt(conversationTexts) {
     if (!conversationTexts || conversationTexts.length === 0) return 'No conversation history available.';
@@ -113,6 +114,7 @@ async function sendMessage(userPrompt) {
                             // sessionId is already available from when we saved the user prompt
                             await askRepository.addAiMessage({ sessionId, role: 'assistant', content: fullResponse });
                             console.log(`[AskService] DB: Saved assistant response to session ${sessionId}`);
+                            speakService.speak(fullResponse);
                         } catch(dbError) {
                             console.error("[AskService] DB: Failed to save assistant response:", dbError);
                         }
